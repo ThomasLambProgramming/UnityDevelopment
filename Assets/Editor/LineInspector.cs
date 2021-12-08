@@ -35,7 +35,10 @@ public class LineInspector : Editor
 
         if (EditorGUI.EndChangeCheck())
         {
+            //Records the current state of the object and lists it as an undo option to go back to (message appears when you goto file to undo 
+            //instead of ctrl + z)
             Undo.RecordObject(line, "Move Point");
+            //Set dirty saves it (still not sure on what exactly it does)
             EditorUtility.SetDirty(line);
             line.p0 = handleTransform.InverseTransformPoint(p0);
         }
