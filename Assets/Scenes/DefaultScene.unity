@@ -250,9 +250,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points:
-  - {x: 0, y: 0.8, z: 0}
-  - {x: 5.6272697, y: 1.5532221, z: -2.5934296}
-  - {x: 7.1261926, y: 0.22616825, z: -2.4080687}
+  - {x: 0.049762897, y: 0.56957614, z: 0}
+  - {x: 1.9287627, y: 1.1617703, z: 3.5377269}
+  - {x: 3.6842036, y: -0.47895026, z: -2.3035119}
+  - {x: 6.9287233, y: 0.6609506, z: 0}
 --- !u!4 &268057644
 Transform:
   m_ObjectHideFlags: 0
@@ -260,13 +261,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 268057642}
-  m_LocalRotation: {x: 0, y: -0.17296053, z: 0, w: 0.9849287}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: -19.92, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &268057645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseballObject: {fileID: 2109639916}
-  _moveSpeed: 2
+  _moveSpeed: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +388,7 @@ GameObject:
   - component: {fileID: 745153525}
   - component: {fileID: 745153524}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Pitcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -565,7 +566,7 @@ GameObject:
   - component: {fileID: 1428105744}
   - component: {fileID: 1428105743}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Batter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
