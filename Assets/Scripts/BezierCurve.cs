@@ -22,7 +22,7 @@ public class BezierCurve : MonoBehaviour
 
         //small note about transformdirection while im looking at it, the vector that direction takes will be the same length
         //but transform point will apply the scale as well
-        return transform.TransformPoint(Bezier.GetFirstDerivate(points[0], points[1], points[2], t)) - transform.position;
+        return transform.TransformPoint(Bezier.GetFirstDerivate(points[0], points[1], points[2], points[3], t)) - transform.position;
     }
     public Vector3 GetDirection(float t) => GetVelocity(t).normalized;
 

@@ -11,9 +11,10 @@ public class BezierSplineInspector : Editor
     private Quaternion handleRotation;
 
 
-    [SerializeField] private float DirectionScale = 0.5f;
-    [SerializeField] private int LineSteps = 10;
-    private int stepsPerCurve = 10;
+    private const float DirectionScale = 0.5f;
+    private const int LineSteps = 10;
+    private const int stepsPerCurve = 10;
+
     private void OnSceneGUI() {
         spline = target as BezierSpline;
         handleTransform = spline.transform;
@@ -65,20 +66,33 @@ public class BezierSplineInspector : Editor
             Handles.DrawLine(lineEnd, lineEnd + spline.GetDirection(lineStepsDiff) * DirectionScale);
         }
     }
+
+    private const float handleSize = 0.04f;
+    private const float pickSize = 0.06f;
+    private int selectedIndex = -1;
+
     private Vector3 ShowPoint(int a_index)
     {
         //Regardless it gets the world position of the offset from the main objects
         Vector3 point = handleTransform.TransformPoint(spline.points[a_index]);
 
-
-        //if it changes update the point on the bezier curve and set it back to local position + save
-        EditorGUI.BeginChangeCheck();
-        point = Handles.DoPositionHandle(point, handleRotation);
-        if (EditorGUI.EndChangeCheck())
+        Handles.color = Color.white;
+        if (Handles.Button(point, handleRotation, handleSize, pickSize, Handles.DotHandleCap))
         {
-            Undo.RecordObject(spline, "Move Point");
-            EditorUtility.SetDirty(spline);
-            spline.points[a_index] = handleTransform.InverseTransformPoint(point);
+            selectedIndex = a_index;
+        }
+
+        if (selectedIndex == a_index)
+        {
+            //if it changes update the point on the bezier curve and set it back to local position + save
+            EditorGUI.BeginChangeCheck();
+            point = Handles.DoPositionHandle(point, handleRotation);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(spline, "Move Point");
+                EditorUtility.SetDirty(spline);
+                spline.points[a_index] = handleTransform.InverseTransformPoint(point);
+            }
         }
 
         return point;
