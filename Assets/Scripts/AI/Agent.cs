@@ -21,22 +21,30 @@ public class Agent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (!_enableMovement || _target == Vector3.zero)
             return;
 
+        Vector3 desiredVelocity = Vector3.zero;
         switch(_currentState)
         {
             case SteeringState.Seek:
+                desiredVelocity = _steeringBehaviour.Seek();
                 break;
             case SteeringState.Flee:
+                desiredVelocity = _steeringBehaviour.Flee();
                 break;
             case SteeringState.Arrive:
+                desiredVelocity = _steeringBehaviour.Arrive();
                 break;
             case SteeringState.Wander:
+                desiredVelocity = _steeringBehaviour.Wander();
                 break;
             case SteeringState.Pursuit:
+                desiredVelocity = _steeringBehaviour.Pursue();
                 break;
             case SteeringState.Evade:
+                desiredVelocity = _steeringBehaviour.Evade();
                 break;
         }
     }

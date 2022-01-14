@@ -16,6 +16,10 @@ public class SteeringBehaviours
     {
         return Vector3.zero;
     }
+    public Vector3 Arrive()
+    {
+        return Vector3.zero;
+    }
     public Vector3 Flee()
     {
         return Vector3.zero;
