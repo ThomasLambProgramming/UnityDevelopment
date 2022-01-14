@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum SteeringState
+{
+    Seek = 1,
+    Flee,
+    Arrive,
+    Wander,
+    Pursuit,
+    Evade
+}
+
 public class User : MonoBehaviour
 {
     [SerializeField] private float _cameraMoveSpeed = 5f;
@@ -10,6 +21,7 @@ public class User : MonoBehaviour
     [SerializeField] private LocationMarker _markerObject = null;
     [SerializeField] private List<Agent> _agents = new List<Agent>();
 
+
     private bool _allowCameraRotation = false;
     
     void Update()
@@ -17,6 +29,55 @@ public class User : MonoBehaviour
         GetCameraRotation();
         GetCameraRotation();
         GetMouse();
+        SetAgentState();
+    }
+    private void SetAgentState()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+                Debug.Log("1 pressed");
+            foreach(Agent agent in _agents)
+            {
+                agent._currentState = SteeringState.Seek;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+                Debug.Log("2 pressed");
+
+            foreach(Agent agent in _agents)
+            {
+                agent._currentState = SteeringState.Flee;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            foreach(Agent agent in _agents)
+            {
+                agent._currentState = SteeringState.Arrive;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            foreach(Agent agent in _agents)
+            {
+                agent._currentState = SteeringState.Wander;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            foreach(Agent agent in _agents)
+            {
+                agent._currentState = SteeringState.Pursuit;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            foreach(Agent agent in _agents)
+            {
+                agent._currentState = SteeringState.Evade;
+            }
+        }
     }
     private void GetMovementInput()
     {

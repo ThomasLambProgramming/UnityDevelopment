@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class SteeringBehaviours
 {
+    
+    private Rigidbody _agentRb = null;
+    private Rigidbody _targetRb = null;
+
+    public void SetAgentRb(Rigidbody a_rigid) => _agentRb = a_rigid;
+    public void SetTargetRb(Rigidbody a_rigid) => _targetRb = a_rigid;
+
+    public float _moveSpeed = 0;
     public Vector3 Seek()
     {
         return Vector3.zero;
