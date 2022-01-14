@@ -6,7 +6,7 @@ public class Agent : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 10f;
 
-    public Vector3 _target = Vector3.zero;
+    private Vector3 _target = Vector3.zero;
 
     public bool _enableMovement = false;
 
@@ -27,12 +27,13 @@ public class Agent : MonoBehaviour
     {
         if (_enableMovement && _target != Vector3.zero)
         {
-
+            
         }
     }
 
-    public void SeekPosition()
+    public void SeekPosition(Vector3 a_position)
     {
-
+        _target = a_position;
+        _enableMovement = true;
     }
 }
