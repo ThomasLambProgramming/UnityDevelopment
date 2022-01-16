@@ -14,6 +14,7 @@ public class Agent : MonoBehaviour
     //----Speed Variables----
     [SerializeField] private float _maxSpeed = 5f;
     [SerializeField] private float _maxTurningSpeed = 5f;
+    [SerializeField] private float _turningSpeed = 4f;
 
     //-----------------------
 
@@ -24,24 +25,27 @@ public class Agent : MonoBehaviour
         _agentRb = GetComponent<Rigidbody>();
         _steeringBehaviour = new SteeringBehaviours();
         _steeringBehaviour.SetAgentRb(_agentRb);
+        _steeringBehaviour.SetSpeed(_maxSpeed);
+        _steeringBehaviour.SetAgentTransform(this.transform);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!_enableMovement || _target == Vector3.zero)
+        if (_enableMovement == false)
             return;
 
         //Get the desiredVel from the current steering behaviour
-        Vector3 desiredVelocity = GetDesiredVelocity();
+        Vector3 desiredVelocity = Vector3.zero;
+        desiredVelocity = GetDesiredVelocity();
         
         if (desiredVelocity.sqrMagnitude > (_maxTurningSpeed * _maxTurningSpeed))
         {
-            desiredVelocity.Normalize();
+            desiredVelocity = desiredVelocity.normalized;
             desiredVelocity *= _maxTurningSpeed;
         }
 
-        _agentRb.AddForce(desiredVelocity, ForceMode.VelocityChange);
+        _agentRb.velocity += desiredVelocity * (Time.deltaTime * _turningSpeed);
 
         if (_agentRb.velocity.sqrMagnitude > _maxSpeed * _maxSpeed)
         {

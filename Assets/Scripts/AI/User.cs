@@ -142,7 +142,7 @@ public class User : MonoBehaviour
 
                     foreach(Agent agent in _agents)
                     {
-                        agent.SeekPosition(hit.transform.position);
+                        agent.SeekPosition(hit.point);
                     }
                 }
             }
