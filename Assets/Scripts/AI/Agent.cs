@@ -10,6 +10,14 @@ public class Agent : MonoBehaviour
     public SteeringState _currentState = SteeringState.Seek;
     private Rigidbody _agentRb = null;
 
+
+    //----Speed Variables----
+    [SerializeField] private float _maxSpeed = 5f;
+    [SerializeField] private float _maxTurningSpeed = 5f;
+
+    //-----------------------
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,27 +34,33 @@ public class Agent : MonoBehaviour
             return;
 
         Vector3 desiredVelocity = Vector3.zero;
+        
+    }
+    private Vector3 GetDesiredVelocity()
+    {
         switch(_currentState)
         {
             case SteeringState.Seek:
-                desiredVelocity = _steeringBehaviour.Seek();
-                break;
+                return _steeringBehaviour.Seek();
+
             case SteeringState.Flee:
-                desiredVelocity = _steeringBehaviour.Flee();
-                break;
+                return _steeringBehaviour.Flee();
+
             case SteeringState.Arrive:
-                desiredVelocity = _steeringBehaviour.Arrive();
-                break;
+                return _steeringBehaviour.Arrive();
+
             case SteeringState.Wander:
-                desiredVelocity = _steeringBehaviour.Wander();
-                break;
+                return _steeringBehaviour.Wander();
+
             case SteeringState.Pursuit:
-                desiredVelocity = _steeringBehaviour.Pursue();
-                break;
+                return _steeringBehaviour.Pursue();
+                
             case SteeringState.Evade:
-                desiredVelocity = _steeringBehaviour.Evade();
-                break;
+                return _steeringBehaviour.Evade();
         }
+
+        //if all fails
+        return Vector3.zero;
     }
 
     public void SeekPosition(Vector3 a_position)
