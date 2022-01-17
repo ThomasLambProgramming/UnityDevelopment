@@ -25,11 +25,29 @@ public class SteeringBehaviours
     }
     public Vector3 Arrive()
     {
+        Vector3 toTarget = _targetPosition - transform.position;
+        float distance = toTarget.normalized;
+
+        if (distance > 0)
+        {
+            //This is just a variable to help with the scaling and values of the decel
+            float decelerationTweaker = 0.3;
+
+            //calculate the speed required to reach the target
+            float velNeeded = distance / (2 * decelerationTweaker);
+
+            if (velNeeded > _maxSpeed)
+                velNeeded = _maxSpeed;
+
+            return toTarget * (velNeeded / distance);
+        }
         return Vector3.zero;
     }
     public Vector3 Flee()
     {
-        return Vector3.zero;
+        Vector3 desiredVel = (_agentTransform.position - transform.position).normalized * _maxSpeed;
+        //Remember left is goal vector, right is the one we want to find out how to get to the left from
+        return desiredVel - _agentRb.velocity;
     } 
     public Vector3 Pursue()
     {
