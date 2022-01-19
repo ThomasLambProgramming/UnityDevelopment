@@ -658,6 +658,7 @@ MonoBehaviour:
   _currentState: 1
   _maxSpeed: 5
   _maxTurningSpeed: 2
+  _turningSpeed: 4
 --- !u!54 &917663233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -703,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b2d4f22f59a0b4295b2818005b6307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraMoveSpeed: 0.01
+  _cameraMoveSpeed: 2.21
   _cameraRotateSpeedX: 5
   _cameraRotateSpeedY: 5
   _markerObject: {fileID: 1926127603}

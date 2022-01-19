@@ -28,6 +28,7 @@ public class User : MonoBehaviour
     {
         GetCameraRotation();
         GetCameraRotation();
+        GetMovementInput();
         GetMouse();
         SetAgentState();
     }
