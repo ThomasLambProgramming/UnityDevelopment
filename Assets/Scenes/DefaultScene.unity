@@ -704,7 +704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b2d4f22f59a0b4295b2818005b6307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraMoveSpeed: 2.21
+  _cameraMoveSpeed: 0.1
   _cameraRotateSpeedX: 5
   _cameraRotateSpeedY: 5
   _markerObject: {fileID: 1926127603}
