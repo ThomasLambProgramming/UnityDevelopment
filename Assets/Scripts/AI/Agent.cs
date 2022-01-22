@@ -16,6 +16,7 @@ public class Agent : MonoBehaviour
     [SerializeField] private float _maxTurningSpeed = 5f;
     [SerializeField] private float _turningSpeed = 4f;
 
+    [SerializeField] private float _decelerationRate = 2f;
     //-----------------------
 
 
@@ -66,7 +67,7 @@ public class Agent : MonoBehaviour
                 return _steeringBehaviour.Flee();
 
             case SteeringState.Arrive:
-                return _steeringBehaviour.Arrive();
+                return _steeringBehaviour.Arrive(_decelerationRate);
 
             case SteeringState.Wander:
                 return _steeringBehaviour.Wander();

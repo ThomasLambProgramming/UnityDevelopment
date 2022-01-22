@@ -26,13 +26,21 @@ public class SteeringBehaviours
         //Remember left is goal vector, right is the one we want to find out how to get to the left from
         return desiredVel - _agentRb.velocity;
     }
+    //Made a second one with a parameter overload
+    public Vector3 Seek(Vector3 a_seekPosition)
+    {
+        Vector3 desiredVel = (a_seekPosition - _agentTransform.position).normalized * _maxSpeed;
+        //Remember left is goal vector, right is the one we want to find out how to get to the left from
+        return desiredVel - _agentRb.velocity;
+    }
+
     public Vector3 Flee()
     {
         Vector3 desiredVel = (_agentTransform.position - _targetPosition).normalized * _maxSpeed;
         //Remember left is goal vector, right is the one we want to find out how to get to the left from
         return desiredVel - _agentRb.velocity;
     } 
-    public Vector3 Arrive()
+    public Vector3 Arrive(float a_decelRate)
     {
         Vector3 toTarget = _targetPosition - _agentTransform.position;
         float distance = toTarget.magnitude;
@@ -40,10 +48,10 @@ public class SteeringBehaviours
         if (distance > 0)
         {
             //This is just a variable to help with the scaling and values of the decel
-            float decelerationTweaker = 0.3f;
+            float decelerationTweaker = 0.6f;
 
             //calculate the speed required to reach the target
-            float velNeeded = distance / (2 * decelerationTweaker);
+            float velNeeded = distance / (decelerationTweaker * a_decelRate);
 
             if (velNeeded > _maxSpeed)
                 velNeeded = _maxSpeed;
@@ -55,7 +63,31 @@ public class SteeringBehaviours
     
     public Vector3 Pursue()
     {
-        return Vector3.zero;
+        Vector3 toTarget = _targetPosition - _agentTransform.position;
+
+        float relativeHeading = Vector3.Dot(_agentRb.velocity.normalized, _targetRb.velocity.normalized);
+
+        //Acos(0.95) = 18 degrees
+        //small note i did not know that is how you get angles from the dot product, very useful for designers variable setting.
+        
+        //this is a check that the agent is moving at least toward the target and the target is heading straight for the agent
+        //then we do not need to look ahead and instead just seek the target
+        if (Vector3.Dot(toTarget, _agentRb.velocity.normalized) > 0 && relativeHeading < -0.95)
+        {
+            return Seek();
+        }
+
+        float lookAheadAmount = toTarget.magnitude / (_maxSpeed + _targetRb.velocity.magnitude);
+
+        return Seek(_targetPosition + _targetRb.velocity * lookAheadAmount);
+    }
+
+    //This is to get a time to wait for the steering behaviour to turn around to face the current target (think how long a tank takes to turn around)
+    public float TurnAroundTime()
+    {
+        Vector3 toTarget = (_targetPosition - _agentTransform.position).normalized;
+
+        float dot = _agentRb.velocity
     }
     public Vector3 Evade()
     {
