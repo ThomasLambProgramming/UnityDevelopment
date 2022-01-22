@@ -40,6 +40,12 @@ public class SteeringBehaviours
         //Remember left is goal vector, right is the one we want to find out how to get to the left from
         return desiredVel - _agentRb.velocity;
     } 
+    public Vector3 Flee(Vector3 a_fleePosition)
+    {
+        Vector3 desiredVel = (_agentTransform.position - a_fleePosition).normalized * _maxSpeed;
+        //Remember left is goal vector, right is the one we want to find out how to get to the left from
+        return desiredVel - _agentRb.velocity;
+    } 
     public Vector3 Arrive(float a_decelRate)
     {
         Vector3 toTarget = _targetPosition - _agentTransform.position;
@@ -81,18 +87,40 @@ public class SteeringBehaviours
 
         return Seek(_targetPosition + _targetRb.velocity * lookAheadAmount);
     }
+    public Vector3 Evade()
+    {
+        //the heading chekcing is not needed for the evade function
+        Vector3 toTarget = _targetPosition - _agentTransform.position;
+
+        float lookAheadAmount = toTarget.magnitude / (_maxSpeed + _targetRb.velocity.magnitude);
+
+        return Flee(_targetPosition + _targetRb.velocity * lookAheadAmount);
+    }
 
     //This is to get a time to wait for the steering behaviour to turn around to face the current target (think how long a tank takes to turn around)
     public float TurnAroundTime()
     {
         Vector3 toTarget = (_targetPosition - _agentTransform.position).normalized;
 
-        float dot = _agentRb.velocity
+        float dot = Vector3.Dot(_agentRb.velocity.normalized, toTarget);
+
+        /*
+        There was a whole explaination of this however
+        get a coefficient for the turning rate of the vehicle (make it a param probably)
+        0.5 = this function will return a time of 1 second for the vehicle to turn around
+        */
+        float coefficientScale = 0.5f;
+
+        //since dot will give 1 if forward then no time is really needed
+        //but if -1 then it will scale accordingly
+        return (dot - 1) * -coefficientScale;
     }
-    public Vector3 Evade()
-    {
-        return Vector3.zero;
-    }
+
+
+
+
+
+    
     public Vector3 Wander()
     {
         return Vector3.zero;
