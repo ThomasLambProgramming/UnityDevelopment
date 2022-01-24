@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Agent : MonoBehaviour
 {
     private Vector3 _target = Vector3.zero;
     public bool _enableMovement = false;
-    private SteeringBehaviours _steeringBehaviour = null;
+    [SerializeField] private SteeringBehaviours _steeringBehaviour = null;
     public SteeringState _currentState = SteeringState.Seek;
     private Rigidbody _agentRb = null;
 
@@ -15,16 +16,16 @@ public class Agent : MonoBehaviour
     [SerializeField] private float _maxSpeed = 5f;
     [SerializeField] private float _maxTurningSpeed = 5f;
     [SerializeField] private float _turningSpeed = 4f;
-
+    [SerializeField] private float _rotationSpeed = 2f;
     [SerializeField] private float _decelerationRate = 2f;
     //-----------------------
 
+    [SerializeField] private bool _enableDebugging = true;
 
-    // Start is called before the first frame update
     void Start()
     {
         _agentRb = GetComponent<Rigidbody>();
-        _steeringBehaviour = new SteeringBehaviours();
+        //_steeringBehaviour = new SteeringBehaviours();
         _steeringBehaviour.SetAgentRb(_agentRb);
         _steeringBehaviour.SetSpeed(_maxSpeed);
         _steeringBehaviour.SetAgentTransform(this.transform);
@@ -55,11 +56,22 @@ public class Agent : MonoBehaviour
             _agentRb.velocity = newVel;
         }
 
+        Quaternion velocityRotation =  Quaternion.LookRotation(_agentRb.velocity.normalized);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, velocityRotation, _rotationSpeed); 
+    }
+    private void OnDrawGizmos() {
+        if (_enableDebugging)
+        {
+            Gizmos.DrawSphere(_steeringBehaviour._newWanderPosition, 0.4f);
+            Gizmos.DrawLine(_steeringBehaviour._wanderDistance * transform.forward + transform.position, transform.position);
+            Gizmos.DrawWireSphere(_steeringBehaviour._wanderDistance * transform.forward + transform.position, _steeringBehaviour._wanderRadius);
+        }
     }
     private Vector3 GetDesiredVelocity()
     {
         switch(_currentState)
         {
+            
             case SteeringState.Seek:
                 return _steeringBehaviour.Seek();
 

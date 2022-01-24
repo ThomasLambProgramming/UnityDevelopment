@@ -654,11 +654,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7174651ceaca7384b890b269262c04eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enableMovement: 0
-  _currentState: 1
+  _enableMovement: 1
+  _steeringBehaviour:
+    _moveSpeed: 0
+    _wanderRadius: 3
+    _wanderDistance: 5.73
+    _wanderJitter: 0.2
+    _newWanderPosition: {x: 0, y: 0, z: 0}
+    _wanderTarget: {x: 0, y: 0}
+  _currentState: 4
   _maxSpeed: 5
   _maxTurningSpeed: 2
   _turningSpeed: 4
+  _rotationSpeed: 2
+  _decelerationRate: 2
+  _enableDebugging: 1
 --- !u!54 &917663233
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -921,7 +931,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1926127599
 Transform:
   m_ObjectHideFlags: 0

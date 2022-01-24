@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+
+[Serializable]
 public class SteeringBehaviours
 {
     private Transform _agentTransform = null;
@@ -120,9 +123,36 @@ public class SteeringBehaviours
 
 
 
-    
+    //radius of the constraining circle
+    public float _wanderRadius = 1.0f;
+
+    //distance away from the agent for wandering
+    public float _wanderDistance = 2.0f;
+
+    //maximum amount of displacement that can be added to the target each second
+    public float _wanderJitter = 1.0f;
+    public Vector3 _newWanderPosition;
+    //Target to wander too
+    public Vector2 _wanderTarget = Vector2.zero;
     public Vector3 Wander()
     {
-        return Vector3.zero;
+        _wanderTarget.x += UnityEngine.Random.Range(-1.0f, 1.0f) * _wanderJitter;
+        _wanderTarget.y += UnityEngine.Random.Range(-1.0f, 1.0f) * _wanderJitter;
+           
+        //Turn into direction
+        _wanderTarget = _wanderTarget.normalized;
+
+        //make the vector the same size as the circle we want for the wander
+        _wanderTarget *= _wanderRadius;
+
+        //make a position that is based on the position of the agent then move it forward by
+        //the wander distance then add the random offset to seek too
+        Vector3 wanderPosition = _agentTransform.position;
+        wanderPosition += _agentTransform.transform.forward * _wanderDistance;
+        
+        wanderPosition.x += _wanderTarget.x;
+        wanderPosition.z += _wanderTarget.y;
+        _newWanderPosition = wanderPosition;
+        return wanderPosition - _agentTransform.position;
     }
 }
