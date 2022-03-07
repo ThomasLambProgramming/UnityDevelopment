@@ -9,7 +9,7 @@ Shader "Examples/Stencil"
         Tags 
 		{ 
 			"RenderType" = "Opaque"
-			"Queue" = "Geometry-1"
+			"Queue" = "Geometry"
 			"RenderPipeline" = "UniversalPipeline"
 		}
 
