@@ -36,7 +36,7 @@ public class User : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-                Debug.Log("1 pressed");
+            Debug.Log("Agent state set to Seek");
             foreach(Agent agent in _agents)
             {
                 agent._currentState = SteeringState.Seek;
@@ -44,7 +44,7 @@ public class User : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-                Debug.Log("2 pressed");
+            Debug.Log("Agent state set to Flee");
 
             foreach(Agent agent in _agents)
             {
@@ -53,6 +53,7 @@ public class User : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            Debug.Log("Agent state set to Arrive");
             foreach(Agent agent in _agents)
             {
                 agent._currentState = SteeringState.Arrive;
@@ -60,6 +61,7 @@ public class User : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            Debug.Log("Agent state set to Wander");
             foreach(Agent agent in _agents)
             {
                 agent._currentState = SteeringState.Wander;
@@ -67,6 +69,7 @@ public class User : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
+            Debug.Log("Agent state set to Pursuit");
             foreach(Agent agent in _agents)
             {
                 agent._currentState = SteeringState.Pursuit;
@@ -74,6 +77,7 @@ public class User : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
+            Debug.Log("Agent state set to Evade");
             foreach(Agent agent in _agents)
             {
                 agent._currentState = SteeringState.Evade;

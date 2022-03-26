@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Agent : MonoBehaviour
 {
     private Vector3 _target = Vector3.zero;
+    
     public bool _enableMovement = false;
     [SerializeField] private SteeringBehaviours _steeringBehaviour = null;
     public SteeringState _currentState = SteeringState.Seek;
@@ -37,6 +38,21 @@ public class Agent : MonoBehaviour
         if (_enableMovement == false)
             return;
 
+        Movement();
+        RotateAgent();
+    }
+    private void OnDrawGizmos() {
+        if (_enableDebugging)
+        {
+            Gizmos.DrawSphere(_steeringBehaviour._newWanderPosition, 0.4f);
+            Gizmos.DrawLine(_steeringBehaviour._wanderDistance * transform.forward + transform.position, transform.position);
+            Gizmos.DrawWireSphere(_steeringBehaviour._wanderDistance * transform.forward + transform.position, _steeringBehaviour._wanderRadius);
+        }
+    }
+
+    //Get the desired 
+    private void Movement()
+    {
         //Get the desiredVel from the current steering behaviour
         Vector3 desiredVelocity = Vector3.zero;
         desiredVelocity = GetDesiredVelocity();
@@ -55,23 +71,17 @@ public class Agent : MonoBehaviour
             newVel *= _maxSpeed;
             _agentRb.velocity = newVel;
         }
+    }
 
+    private void RotateAgent()
+    {
         Quaternion velocityRotation =  Quaternion.LookRotation(_agentRb.velocity.normalized);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, velocityRotation, _rotationSpeed); 
-    }
-    private void OnDrawGizmos() {
-        if (_enableDebugging)
-        {
-            Gizmos.DrawSphere(_steeringBehaviour._newWanderPosition, 0.4f);
-            Gizmos.DrawLine(_steeringBehaviour._wanderDistance * transform.forward + transform.position, transform.position);
-            Gizmos.DrawWireSphere(_steeringBehaviour._wanderDistance * transform.forward + transform.position, _steeringBehaviour._wanderRadius);
-        }
     }
     private Vector3 GetDesiredVelocity()
     {
         switch(_currentState)
         {
-            
             case SteeringState.Seek:
                 return _steeringBehaviour.Seek();
 
