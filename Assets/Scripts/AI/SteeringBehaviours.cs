@@ -23,29 +23,29 @@ public class SteeringBehaviours
     
     
     //The following behaviours are marked down as 1,2,3,4,5 etc on the controls for the user.
-    public Vector3 Seek()
+    public Vector3 Seek(float a_maxSpeed)
     {
-        Vector3 desiredVel = (_targetPosition - _agentTransform.position).normalized * _maxSpeed;
+        Vector3 desiredVel = (_targetPosition - _agentTransform.position).normalized * a_maxSpeed;
         //Remember left is goal vector, right is the one we want to find out how to get to the left from
         return desiredVel - _agentRb.velocity;
     }
     //Made a second one with a parameter overload
-    public Vector3 Seek(Vector3 a_seekPosition)
+    public Vector3 Seek(Vector3 a_seekPosition, float a_maxSpeed)
     {
-        Vector3 desiredVel = (a_seekPosition - _agentTransform.position).normalized * _maxSpeed;
+        Vector3 desiredVel = (a_seekPosition - _agentTransform.position).normalized * a_maxSpeed;
         //Remember left is goal vector, right is the one we want to find out how to get to the left from
         return desiredVel - _agentRb.velocity;
     }
 
-    public Vector3 Flee()
+    public Vector3 Flee(float a_maxSpeed)
     {
-        Vector3 desiredVel = (_agentTransform.position - _targetPosition).normalized * _maxSpeed;
+        Vector3 desiredVel = (_agentTransform.position - _targetPosition).normalized * a_maxSpeed;
         //Remember left is goal vector, right is the one we want to find out how to get to the left from
         return desiredVel - _agentRb.velocity;
     } 
-    public Vector3 Flee(Vector3 a_fleePosition)
+    public Vector3 Flee(Vector3 a_fleePosition, float a_maxSpeed)
     {
-        Vector3 desiredVel = (_agentTransform.position - a_fleePosition).normalized * _maxSpeed;
+        Vector3 desiredVel = (_agentTransform.position - a_fleePosition).normalized * a_maxSpeed;
         //Remember left is goal vector, right is the one we want to find out how to get to the left from
         return desiredVel - _agentRb.velocity;
     } 
@@ -70,7 +70,7 @@ public class SteeringBehaviours
         return Vector3.zero;
     }
     
-    public Vector3 Pursue()
+    public Vector3 Pursue(float a_maxSpeed)
     {
         Vector3 toTarget = _targetPosition - _agentTransform.position;
 
@@ -83,21 +83,21 @@ public class SteeringBehaviours
         //then we do not need to look ahead and instead just seek the target
         if (Vector3.Dot(toTarget, _agentRb.velocity.normalized) > 0 && relativeHeading < -0.95)
         {
-            return Seek();
+            return Seek(a_maxSpeed);
         }
 
         float lookAheadAmount = toTarget.magnitude / (_maxSpeed + _targetRb.velocity.magnitude);
 
-        return Seek(_targetPosition + _targetRb.velocity * lookAheadAmount);
+        return Seek(_targetPosition + _targetRb.velocity * lookAheadAmount, a_maxSpeed);
     }
-    public Vector3 Evade()
+    public Vector3 Evade(float a_maxSpeed)
     {
         //the heading chekcing is not needed for the evade function
         Vector3 toTarget = _targetPosition - _agentTransform.position;
 
         float lookAheadAmount = toTarget.magnitude / (_maxSpeed + _targetRb.velocity.magnitude);
 
-        return Flee(_targetPosition + _targetRb.velocity * lookAheadAmount);
+        return Flee(_targetPosition + _targetRb.velocity * lookAheadAmount, a_maxSpeed);
     }
 
     //This is to get a time to wait for the steering behaviour to turn around to face the current target (think how long a tank takes to turn around)

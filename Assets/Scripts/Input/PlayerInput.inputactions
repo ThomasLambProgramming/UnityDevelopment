@@ -132,6 +132,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "0cd0e997-841c-43de-abad-282aa8404f85",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -352,6 +360,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Alpha0",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d292318e-9510-486c-af52-6480b8a23423",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

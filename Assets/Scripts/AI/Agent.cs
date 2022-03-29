@@ -21,6 +21,8 @@ public class Agent : MonoBehaviour
     [SerializeField] private float _decelerationRate = 2f;
     //-----------------------
 
+    [SerializeField] private float _stoppingDistance = 2f;
+
     [SerializeField] private bool _enableDebugging = true;
 
     void Start()
@@ -35,7 +37,7 @@ public class Agent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_enableMovement == false)
+        if (_enableMovement == false || Vector3.Distance(transform.position, _target) < _stoppingDistance)
             return;
 
         Movement();
@@ -63,6 +65,7 @@ public class Agent : MonoBehaviour
             desiredVelocity *= _maxTurningSpeed;
         }
 
+        desiredVelocity.y = 0;
         _agentRb.velocity += desiredVelocity * (Time.deltaTime * _turningSpeed);
 
         if (_agentRb.velocity.sqrMagnitude > _maxSpeed * _maxSpeed)
@@ -75,7 +78,7 @@ public class Agent : MonoBehaviour
 
     private void RotateAgent()
     {
-        Quaternion velocityRotation =  Quaternion.LookRotation(_agentRb.velocity.normalized);
+        Quaternion velocityRotation =  Quaternion.LookRotation(_agentRb.velocity);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, velocityRotation, _rotationSpeed); 
     }
     private Vector3 GetDesiredVelocity()
@@ -83,10 +86,10 @@ public class Agent : MonoBehaviour
         switch(_currentState)
         {
             case SteeringState.Seek:
-                return _steeringBehaviour.Seek();
+                return _steeringBehaviour.Seek(_maxSpeed);
 
             case SteeringState.Flee:
-                return _steeringBehaviour.Flee();
+                return _steeringBehaviour.Flee(_maxSpeed);
 
             case SteeringState.Arrive:
                 return _steeringBehaviour.Arrive(_decelerationRate);
@@ -95,10 +98,10 @@ public class Agent : MonoBehaviour
                 return _steeringBehaviour.Wander();
 
             case SteeringState.Pursuit:
-                return _steeringBehaviour.Pursue();
+                return _steeringBehaviour.Pursue(_maxSpeed);
 
             case SteeringState.Evade:
-                return _steeringBehaviour.Evade();
+                return _steeringBehaviour.Evade(_maxSpeed);
         }
 
         //if all fails

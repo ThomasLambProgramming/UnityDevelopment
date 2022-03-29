@@ -167,7 +167,7 @@ public class User : MonoBehaviour
     }
     private void StartLeftClick(InputAction.CallbackContext a_context)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _playerCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         RaycastHit hit = new RaycastHit();
             
