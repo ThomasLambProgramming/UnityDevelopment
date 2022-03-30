@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Reflection;
+using System;
 
 namespace CoreFunctions
 {
@@ -38,5 +40,12 @@ namespace CoreFunctions
                 }
             }
         }
+
+#if UNITY_EDITOR
+        public static void GenerateUIForVariables(ref object a_object)
+        {
+
+        }
+#endif
     }
 }

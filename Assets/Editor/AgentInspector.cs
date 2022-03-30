@@ -17,22 +17,22 @@ public class AgentInspector : Editor
     //{
     //  Runs this function on the scene view    
     //}
-    private bool _ranReflectionOnce = false;
+
     public override void OnInspectorGUI()
     {
-        if (!_ranReflectionOnce)
-        {
-            Type classType = typeof(Agent);
 
-            foreach (var type in classType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic))
+        Type classType = typeof(Agent);
+
+        foreach (var type in classType.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic))
+        {
+            if (type.FieldType == typeof(float))
             {
-                if (type.FieldType == typeof(float))
-                    type.SetValue(target, 123);
             }
-            _ranReflectionOnce = true;
         }
 
+
+
         //Run base inspector for the script
-        base.OnInspectorGUI();
+        //base.OnInspectorGUI();
     }
 }
